@@ -9,6 +9,7 @@ import board
 
 import RPi.GPIO as GPIO
 
+#LED SET UP
 def setupGPIO():
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
@@ -19,6 +20,7 @@ def setupGPIO():
 
 class Thingspeak(object):                       # define a class called Thingspeak
 
+    #API CONNECTION
     def __init__(self, write_api_key = None, read_api_key=None, channel_id=0):
 
         """
@@ -42,7 +44,8 @@ class Thingspeak(object):                       # define a class called Thingspe
         self.feild1 = []
         self.feild2 = []
         self.feild3 = []
-
+    
+   #POST TO CLOUD
     def post_cloud(self, value1, value2, value3):
         try:
             """
@@ -67,7 +70,7 @@ class Thingspeak(object):                       # define a class called Thingspe
             print(data)
         except:
             print('could not post to the cloud server ')
-
+    #Read FROM API
     def read_cloud(self, result=2):
         try:
             """
@@ -93,12 +96,13 @@ class Thingspeak(object):                       # define a class called Thingspe
             return self.feild1, self.feild2, self.feild3
         except:
             print('read_cloud failed !!!! ')
-    
 
+#Variables for loops.
 sensorDefined=0;
 redLedStatus = 0;
 allLedStatus = 0;
 
+#Import board data
 while sensorDefined ==0:
     
     try:
@@ -110,6 +114,8 @@ while sensorDefined ==0:
         print("Exception SENSOR SETUP Raised")
         time.sleep(5)
 setupGPIO()
+
+#OUTPUT TO MHR SIMULATED LIGHTS
 while True:       
     try:
         temperature = sensor.temperature
@@ -206,6 +212,10 @@ while True:
     except Exception: 
         print("Exception SENSOR READING Raised")
         time.sleep(5)
+        
+   #POST DATA
+        
+  
     w_key = 'RDXAI962UDTWPFKL'
     r_key = 'HSEDQ40Z666MKUE4'
     channel_id = 1614323
